@@ -6,29 +6,32 @@ using UnityEngine.Serialization;
 using UnityEditor;
 #endif
 
-namespace TouchSurgery.Annotations
+public class CreateOnClickInScene : MonoBehaviour
 {
-    public class CreateOnClickInScene : MonoBehaviour
-    {
-        public GameObject CreatedObject;
-    }
+    public GameObject CreatedObject;
+}
 
 #if UNITY_EDITOR
-    [CustomEditor(typeof(CreateOnClickInScene))]
-    public class CreateOnClickInSceneEditor : Editor
-    {
-        private CreateOnClickInScene Target { get { return (CreateOnClickInScene)target; } }
+[CustomEditor(typeof(CreateOnClickInScene))]
+public class CreateOnClickInSceneEditor : Editor
+{
+    private CreateOnClickInScene Target { get { return (CreateOnClickInScene)target; } }
 
-        private void OnEnable()
+    private void OnEnable()
+    {
+        if (!Application.isPlaying)
         {
             Target.CreatedObject = new GameObject("Editor only object");
         }
+    }
 
-        private void OnDisable()
+    private void OnDisable()
+    {
+        if (!Application.isPlaying)
         {
             DestroyImmediate(Target.CreatedObject);
             Target.CreatedObject = null;
         }
     }
-#endif
 }
+#endif
