@@ -27,11 +27,8 @@ public class CreateOnClickInSceneEditor : Editor
 
     private void OnDisable()
     {
-        if (!Application.isPlaying)
-        {
-            DestroyImmediate(Target.CreatedObject);
-            Target.CreatedObject = null;
-        }
+        DestroyImmediate(Target.CreatedObject);
+        Target.CreatedObject = null;
     }
 }
 #endif
