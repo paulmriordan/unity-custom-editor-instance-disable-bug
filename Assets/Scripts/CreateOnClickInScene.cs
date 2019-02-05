@@ -1,0 +1,34 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Serialization;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
+namespace TouchSurgery.Annotations
+{
+    public class CreateOnClickInScene : MonoBehaviour
+    {
+        public GameObject CreatedObject;
+    }
+
+#if UNITY_EDITOR
+    [CustomEditor(typeof(CreateOnClickInScene))]
+    public class CreateOnClickInSceneEditor : Editor
+    {
+        private CreateOnClickInScene Target { get { return (CreateOnClickInScene)target; } }
+
+        private void OnEnable()
+        {
+            Target.CreatedObject = new GameObject("Editor only object");
+        }
+
+        private void OnDisable()
+        {
+            DestroyImmediate(Target.CreatedObject);
+            Target.CreatedObject = null;
+        }
+    }
+#endif
+}
